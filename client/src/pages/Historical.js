@@ -1,12 +1,18 @@
 import React from "react";
 import * as d3 from "d3";
-import data from '../assets/data2.csv';
+import data2 from '../assets/data2.csv';
 
 class Historical extends React.Component {
-  historicalViz(data) {
+
+  state = {
+    colorTheme: ["#4729af", "#B92f94", "#E36172", "#FDA860", "#f4c809"]
+  }
+  historicalViz(data2) {
+
+    let colorTheme = this.state.colorTheme; 
     // set the dimensions and margins of the graph
     var margin = { top: 80, right: 25, bottom: 30, left: 40 },
-      width = 450 - margin.left - margin.right,
+      width = window.innerWidth - margin.left - margin.right,
       height = 450 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
@@ -19,7 +25,7 @@ class Historical extends React.Component {
         "translate(" + margin.left + "," + margin.top + ")");
 
     //Read the data
-    d3.csv(data).then(function (data) {
+    d3.csv(data2).then(function (data) {
       console.log(d3.values(data))
       // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
       var myGroups = d3.map(data, function (d) { return d.group; }).keys()
@@ -49,16 +55,15 @@ class Historical extends React.Component {
         .select(".domain").remove()
 
       // Build color scale
-      var myColor = d3.scaleSequential()
-        .interpolator(d3.interpolateInferno)
-        .domain([1, 100])
+      var myColor = d3.scaleLinear()
+      .range(colorTheme)
+      .domain([1, 25, 50, 75, 100])
 
       // create a tooltip
       var tooltip = d3.select("#historicalDV")
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
-        .style("background-color", "white")
         .style("border", "solid")
         .style("border-width", "2px")
         .style("border-radius", "5px")
@@ -122,12 +127,12 @@ class Historical extends React.Component {
       .style("font-size", "14px")
       .style("fill", "grey")
       .style("max-width", 400)
-      .text("A short description of the take-away message of this chart.");
+      .text("Last week.");
   }
 
 
   componentDidMount() {
-    this.historicalViz(data);
+    this.historicalViz(data2);
   }
 
   render() {

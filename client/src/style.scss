@@ -39,7 +39,6 @@ body {
 	}
 }
 
-
 .gallery-container {
   padding-top: .9375rem;
 
@@ -119,6 +118,12 @@ body {
   }
 }
 
+.tooltip {
+  color: lightgrey;
+  background: #2B2C30;
+
+}
+
 
 #wrapper {
     position:relative;
@@ -143,14 +148,13 @@ body {
 .middle {
     height: 84vh; 
     width: 100%;
-    background:grey;
-    color: black;
+    background: #1F2024;
+    color: gray;
     padding-top:8vh;
     font-size: 2vh; 
 }
 #bottom {
     bottom:0;
-    
 }
 
 #stats {

@@ -13,20 +13,17 @@ import "../src/style.scss";
 
 
 class App extends React.Component {
+
+    
   state = {
     apparentTemperature: null,
     temperatureHigh:null,
     temperatureLow:null,
     windGust: null,
+    windBearing: null,
     cloudCover: null, 
     precipProbability: null,
   }
-
-  
-
-  handlePageChange = page => {
-    this.setState({ currentPage: page });
-  };
 
 
   componentDidMount () {
@@ -46,6 +43,8 @@ class App extends React.Component {
     )}
 
   render() {
+       if(!this.state.apparentTemperature)
+            return null;
     return (
       <Router>
         <div id="wrapper">

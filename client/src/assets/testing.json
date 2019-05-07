@@ -1,0 +1,37 @@
+[
+    {
+        "group": "SUN",
+        "variable": 0,
+        "value": 30
+    },
+    {
+        "group": "SUN",
+        "variable": 4,
+        "value": 35
+    },
+    {
+        "group": "SUN",
+        "variable": 8,
+        "value": 40
+    },
+    {
+        "group": "SUN",
+        "variable": 12,
+        "value": 60
+    },
+    {
+        "group": "SUN",
+        "variable": 16,
+        "value": 75
+    },
+    {
+        "group": "SUN",
+        "variable": 20,
+        "value": 50
+    },
+    {
+        "group": "SUN",
+        "variable": 24,
+        "value": 35
+    }
+]

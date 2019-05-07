@@ -9,13 +9,39 @@ import * as d3 from "d3";
 // height: 80%;
 // `
 
+let wind=[];
+
 class Main extends React.Component {
 
+  state = {
+    apparentTemperature: null,
+    temperatureHigh:null,
+    temperatureLow: null,
+    windBearing: null, 
+    windGust: null,
+    cloudCover: null, 
+    precipProbability: null,
+    colorTheme: ["#FDA860", "#FC8669", "#E36172", "#C64277", "#B92f94", "#C64277", "#E36172", "#FC8669", "#FDA860"]
+  }
+  
+  convertWB() {
+    switch (true) {
+      case (45 < this.state.windBearing && this.state.windBearing < 135): wind =["0;0","0;0","0;1","1;2"]; 
+      break;
+      case (136 < this.state.windBearing && this.state.windBearing < 225): wind=["1;0","2;1","0;0","0;0"]; 
+      break;
+      case (226 < this.state.windBearing && this.state.windBearing < 315): wind=["0;0","0;0","1;2","0;1"]; 
+      break;
+      default: wind=["0;1","1;2","0;0","0;0"]; 
+    }
+  }
 
   CCV() {
 
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let gust = 50 - this.state.windGust;
+    let colorTheme = this.state.colorTheme; 
 
 
     //SVG container
@@ -31,29 +57,40 @@ class Main extends React.Component {
     var defs = svg.append("defs");
     var linearGradient = defs.append("linearGradient")
       .attr("id", "animate-gradient")
-      .attr("x1", "100%")
+      .attr("x1", "0%")
       .attr("y1", "0%")
       .attr("x2", "100%")
-      .attr("y2", "0")
+      .attr("y2", "0%")
       .attr("spreadMethod", "reflect");
 
-    var colours = ["#FDA860", "#FC8669", "#E36172", "#C64277", "#E36172", "#FC8669", "#FDA860"];
     linearGradient.selectAll(".stop")
-      .data(colours)
+      .data(colorTheme)
       .enter().append("stop")
-      .attr("offset", function (d, i) { return i / (colours.length - 1); })
+      .attr("offset", function (d, i) { return i / (colorTheme.length - 1); })
       .attr("stop-color", function (d) { return d; });
 
     linearGradient.append("animate")
       .attr("attributeName", "x1")
-      .attr("values", "00%;100%")
-      .attr("dur", "18s")
+      .attr("values", wind[0])
+      .attr("dur", gust)
       .attr("repeatCount", "indefinite");
 
     linearGradient.append("animate")
       .attr("attributeName", "x2")
-      .attr("values", "100%; 200%")
-      .attr("dur", "18s")
+      .attr("values", wind[1])
+      .attr("dur", gust)
+      .attr("repeatCount", "indefinite");
+
+      linearGradient.append("animate")
+      .attr("attributeName", "y1")
+      .attr("values", wind[2])
+      .attr("dur", gust)
+      .attr("repeatCount", "indefinite");
+
+      linearGradient.append("animate")
+      .attr("attributeName", "y2")
+      .attr("values", wind[3])
+      .attr("dur", gust)
       .attr("repeatCount", "indefinite");
 
     svg.append("rect")
@@ -66,11 +103,21 @@ class Main extends React.Component {
 
 
   componentDidMount() {
-    this.CCV();
+    this.setState({
+      temperatureHigh:this.props.temperatureHigh,
+      temperatureLow: this.props.temperatureLow,
+      apparentTemperature: this.props.apparentTemperature,
+      cloudCover: this.props.cloudCover,
+      windBearing: this.props.windBearing,
+      windGust: this.props.windGust,
+      precipProbability: this.props.precipProbability,
+      precipIntensity: this.props.precipIntensity,});
   }
 
-
-
+  componentDidUpdate() {
+    this.convertWB();
+    this.CCV();
+  }
   render() {
     return (<>
       <div className="container">
