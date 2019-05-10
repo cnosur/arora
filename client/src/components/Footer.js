@@ -1,30 +1,30 @@
 import React from "react";
 import {Link} from "react-router-dom";
-
 import styled from "styled-components";
 
-const SF = styled.footer`
+
+
+
+function Footer(props) {
+  const SF = styled.footer`
 a {
   color: #FFF;
   text-decoration: none; 
 }
 
 #c1:hover {
-    color: #C64277;
+    color: ${props.colorTheme[1]};
  }
 
 #c2:hover {
-  color: #E36172;
+  color: ${props.colorTheme[2]};
 }
 
 #c3:hover {
-  color: #FDA860;
+  color: ${props.colorTheme[3]};
 }
 
 `
-
-
-function Footer(props) {
   return ( <>
     <SF className="removeStyle" id="bottom"><ul>
         <Link id="c1" to={"/forecast"}>forecast</Link>| 
@@ -33,6 +33,7 @@ function Footer(props) {
         <Link id="c2" to={"/gallery"} >gallery</Link>| 
         <Link id="c1" to={"/about"} >about</Link>
         </ul>
+        
    </SF>
   </>);
 }

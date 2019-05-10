@@ -6,5 +6,8 @@ export default {
   },
   getWeather: function() {
     return axios.get("/api/weather")
+  },
+  getColors: function () {
+    return axios.get("/api/colors")
   }
 };

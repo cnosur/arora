@@ -1,62 +1,28 @@
 import React from "react";
 import * as d3 from "d3";
-import API from '../utils/API';
-
+import data from'../assets/data.csv';
 
 class Forecast extends React.Component {
 
-  state = {
-    colorTheme: ["#4729af", "#B92f94", "#E36172", "#FDA860", "#f4c809"],
-    data: [
-      {
-        "group": "SUN",
-        "variable": 0,
-        "value": 30
-      },
-      {
-        "group": "SUN",
-        "variable": 4,
-        "value": 35
-      },
-      {
-        "group": "SUN",
-        "variable": 8,
-        "value": 40
-      },
-      {
-        "group": "SUN",
-        "variable": 12,
-        "value": 60
-      },
-      {
-        "group": "SUN",
-        "variable": 16,
-        "value": 75
-      },
-      {
-        "group": "SUN",
-        "variable": 20,
-        "value": 50
-      },
-      {
-        "group": "SUN",
-        "variable": 24,
-        "value": 35
-      }
-    ]
-  }
+    // colorTheme: [this.props.colorTheme],
+    // colorTheme: ["#32216E", "#1571A8", "#10A835", "#FDEA00", "#A80706"],
+    // colorTheme: ["#4729af", "#B92f94", "#E36172", "#FDA860", "#f4c809"],
+    // colorTheme: ["#2e231f", "#263c8b","#4e74a6", "#bdbf78", "#bfa524"],
+    // colorTheme: ["#0f0b26", "#b3b372","#8c5a2e", "#bf8641", "#522421"],
+    // colorTheme: ["#284253", "#4d7186","#f4a720", "#ef8c12", "#e0542e"],
 
-  componentDidMount() {
-    API.getForecast().then(res => console.log(res.data))
-    this.forecastViz();
-  }
-
+  
+  // componentDidMount() {
+  //   API.getForecast().then(res =>
+  //     this.setState({
+  //       data: res.data
+  //     }))
+  // }
 
   forecastViz() {
 
-    let colorTheme = this.state.colorTheme;
+    let colorTheme = this.props.colorTheme;
    
-
     // set the dimensions and margins of the graph
     var margin = { top: 80, right: 25, bottom: 30, left: 40 },
       width = 450 - margin.left - margin.right,
@@ -71,9 +37,10 @@ class Forecast extends React.Component {
       .attr("transform",
         "translate(" + margin.left + "," + margin.top + ")");
 
+d3.csv(data).then(function (data) {
     // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
-    var myGroups = d3.map(this.state.data, function (d) { return d.group; }).keys()
-    var myVars = d3.map(this.state.data, function (d) { return d.variable; }).keys()
+    var myGroups = d3.map(data, function (d) { return d.group; }).keys()
+    var myVars = d3.map(data, function (d) { return d.variable; }).keys()
 
     // Build X scales and axis:
     var x = d3.scaleBand()
@@ -99,7 +66,7 @@ class Forecast extends React.Component {
     // Build color scale
     var myColor = d3.scaleLinear()
       .range(colorTheme)
-      .domain([1, 25, 50, 75, 100])
+      .domain([5, 25, 50, 75, 95])
 
     // create a tooltip
     var tooltip = d3.select("#forecastDV")
@@ -135,7 +102,7 @@ class Forecast extends React.Component {
 
     // add the squares
     svg.selectAll()
-      .data(this.state.data, function (d) { return d.group + ':' + d.variable; })
+      .data(data, function (d) { return d.group + ':' + d.variable; })
       .enter()
       .append("rect")
       .attr("x", function (d) { return x(d.group) })
@@ -152,7 +119,7 @@ class Forecast extends React.Component {
       .on("mousemove", mousemove)
       .on("mouseleave", mouseleave)
 
-
+  })
     // Add title to graph
     svg.append("text")
       .attr("x", 0)
@@ -172,6 +139,13 @@ class Forecast extends React.Component {
       .text("Forecast for upcoming week.");
 
   }
+
+  componentDidMount() {
+    this.forecastViz(data)
+  }
+
+
+  ////////// R E N D E R //////////
 
   render() {
     return (

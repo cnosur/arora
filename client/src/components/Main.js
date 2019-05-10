@@ -1,6 +1,6 @@
 import React from "react";
 import * as d3 from "d3";
-// import { findDOMNode } from "react-dom";
+
 // import styled from "styled-components";
 
 // const MS = styled.main`
@@ -9,47 +9,40 @@ import * as d3 from "d3";
 // height: 80%;
 // `
 
+
+// GLOBAL VARS //
 let wind=[];
 
+// COMPONENTS //
 class Main extends React.Component {
 
-  state = {
-    apparentTemperature: null,
-    temperatureHigh:null,
-    temperatureLow: null,
-    windBearing: null, 
-    windGust: null,
-    cloudCover: null, 
-    precipProbability: null,
-    colorTheme: ["#FDA860", "#FC8669", "#E36172", "#C64277", "#B92f94", "#C64277", "#E36172", "#FC8669", "#FDA860"]
-  }
-  
+  //Converts wearingBearing to coordinates for d3 
   convertWB() {
     switch (true) {
-      case (45 < this.state.windBearing && this.state.windBearing < 135): wind =["0;0","0;0","0;1","1;2"]; 
+      case (45 < this.props.windBearing && this.props.windBearing < 135): wind =["0;0","0;0","0;1","1;2"]; 
       break;
-      case (136 < this.state.windBearing && this.state.windBearing < 225): wind=["1;0","2;1","0;0","0;0"]; 
+      case (136 < this.props.windBearing && this.props.windBearing < 225): wind=["1;0","2;1","0;0","0;0"]; 
       break;
-      case (226 < this.state.windBearing && this.state.windBearing < 315): wind=["0;0","0;0","1;2","0;1"]; 
+      case (226 < this.props.windBearing && this.props.windBearing < 315): wind=["0;0","0;0","1;2","0;1"]; 
       break;
       default: wind=["0;1","1;2","0;0","0;0"]; 
     }
   }
 
+  //Current Conditions Visualization
   CCV() {
-
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    let gust = 50 - this.state.windGust;
-    let colorTheme = this.state.colorTheme; 
+    let Width = window.innerWidth;
+    let Height = window.innerHeight;
+    let Gust = 50 - this.props.windGust;
+    let colorTheme = this.props.CCVTheme; 
 
 
     //SVG container
     var svg = d3.select("#chart")
       .append("svg")
       .attr("class", "d3")
-      .attr("width", width)
-      .attr("height", height)
+      .attr("width", Width)
+      .attr("height", Height)
       .append("g")
       .attr("transform", "translate()");
 
@@ -72,52 +65,42 @@ class Main extends React.Component {
     linearGradient.append("animate")
       .attr("attributeName", "x1")
       .attr("values", wind[0])
-      .attr("dur", gust)
+      .attr("dur", Gust)
       .attr("repeatCount", "indefinite");
 
     linearGradient.append("animate")
       .attr("attributeName", "x2")
       .attr("values", wind[1])
-      .attr("dur", gust)
+      .attr("dur", Gust)
       .attr("repeatCount", "indefinite");
 
-      linearGradient.append("animate")
+    linearGradient.append("animate")
       .attr("attributeName", "y1")
       .attr("values", wind[2])
-      .attr("dur", gust)
+      .attr("dur", Gust)
       .attr("repeatCount", "indefinite");
 
-      linearGradient.append("animate")
+    linearGradient.append("animate")
       .attr("attributeName", "y2")
       .attr("values", wind[3])
-      .attr("dur", gust)
+      .attr("dur", Gust)
       .attr("repeatCount", "indefinite");
 
     svg.append("rect")
       .attr("x", 0)
       .attr("y", 0)
-      .attr("width", width)
-      .attr("height", height)
+      .attr("width", Width)
+      .attr("height", Height)
       .style("fill", "url(#animate-gradient)");
   }
 
-
-  componentDidMount() {
-    this.setState({
-      temperatureHigh:this.props.temperatureHigh,
-      temperatureLow: this.props.temperatureLow,
-      apparentTemperature: this.props.apparentTemperature,
-      cloudCover: this.props.cloudCover,
-      windBearing: this.props.windBearing,
-      windGust: this.props.windGust,
-      precipProbability: this.props.precipProbability,
-      precipIntensity: this.props.precipIntensity,});
-  }
-
-  componentDidUpdate() {
+  componentDidMount() { 
     this.convertWB();
     this.CCV();
   }
+
+  ////////// R E N D E R //////////
+
   render() {
     return (<>
       <div className="container">
@@ -136,7 +119,6 @@ class Main extends React.Component {
         </div>
 
       </div>
-      <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     </>);
   }
 }

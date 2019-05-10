@@ -4,12 +4,9 @@ import data2 from '../assets/data2.csv';
 
 class Historical extends React.Component {
 
-  state = {
-    colorTheme: ["#4729af", "#B92f94", "#E36172", "#FDA860", "#f4c809"]
-  }
-  historicalViz(data2) {
+  historicalViz() {
 
-    let colorTheme = this.state.colorTheme; 
+    let colorTheme = this.props.colorTheme; 
     // set the dimensions and margins of the graph
     var margin = { top: 80, right: 25, bottom: 30, left: 40 },
       width = window.innerWidth - margin.left - margin.right,
@@ -57,7 +54,7 @@ class Historical extends React.Component {
       // Build color scale
       var myColor = d3.scaleLinear()
       .range(colorTheme)
-      .domain([1, 25, 50, 75, 100])
+      .domain([20, 35, 50, 65, 80])
 
       // create a tooltip
       var tooltip = d3.select("#historicalDV")
@@ -79,7 +76,7 @@ class Historical extends React.Component {
       }
       var mousemove = function (d) {
         tooltip
-          .html("The exact value of<br>this cell is: " + d.value)
+          .html("The apparent temperature value<br>during this hour was: " + d.value)
           .style("left", (d3.mouse(this)[0] + 70) + "px")
           .style("top", (d3.mouse(this)[1]) + "px")
       }
@@ -128,6 +125,8 @@ class Historical extends React.Component {
       .style("fill", "grey")
       .style("max-width", 400)
       .text("Last week.");
+
+      
   }
 
 

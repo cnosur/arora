@@ -183,3 +183,17 @@ body {
   text-decoration: none;
   color: white;
 }
+
+.dbImg {
+  max-height: 25vh; 
+  padding: 2vh;
+  img {
+		width: 100%;
+		transition: transform 500ms ease;
+		&:hover {
+			transform: scale(1.1);}}
+}
+
+#dbGallery {
+  margin: 0 4vh; 
+}
