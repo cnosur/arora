@@ -31,9 +31,9 @@ componentDidMount() {
 render() {
   return(
   <div className="middle">
-    <h1>Color Palette Page</h1>
+    <h1>Color Palette Selector</h1>
     <p>
-     This is the color palette page.
+    Select a color palette from the paintings below to re-render visualizations:
     </p>
     <div id= "dbGallery">
     {this.state.dbColors.map(theme => (

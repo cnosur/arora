@@ -88,7 +88,7 @@ d3.csv(data).then(function (data) {
     }
     var mousemove = function (d) {
       tooltip
-        .html("The exact value of<br>this cell is: " + d.value)
+        .html("The apparent temperature <br>during this hour was: " + d.value +"F")
         .style("left", (d3.mouse(this)[0] + 70) + "px")
         .style("top", (d3.mouse(this)[1]) + "px")
     }
@@ -136,7 +136,7 @@ d3.csv(data).then(function (data) {
       .style("font-size", "14px")
       .style("fill", "grey")
       .style("max-width", 400)
-      .text("Forecast for upcoming week.");
+      .text("Next weeks forecast for Denver CO. ");
 
   }
 

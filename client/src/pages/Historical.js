@@ -76,7 +76,7 @@ class Historical extends React.Component {
       }
       var mousemove = function (d) {
         tooltip
-          .html("The apparent temperature value<br>during this hour was: " + d.value)
+          .html("The apparent temperature <br>during this hour was: " + d.value +"F")
           .style("left", (d3.mouse(this)[0] + 70) + "px")
           .style("top", (d3.mouse(this)[1]) + "px")
       }
@@ -124,7 +124,7 @@ class Historical extends React.Component {
       .style("font-size", "14px")
       .style("fill", "grey")
       .style("max-width", 400)
-      .text("Last week.");
+      .text("Historical Data 2019-04-19 to 2019-05-19.");
 
       
   }

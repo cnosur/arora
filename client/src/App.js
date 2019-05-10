@@ -23,7 +23,7 @@ class App extends React.Component {
     cloudCover: null,
     precipProbability: null,
     colorTheme: ["#4f1fb7","#5000ff", "#004cff", "#00ffb3", "#ff00a1"],
-    CCVTheme: ["#ff00a1", "#00ffb3", "#004cff", "#5000ff", "#4f1fb7", "#5000ff", "#004cff", "#00ffb3", "#ff00a1" ] }
+    CCVTheme: ["#00ffb3", "#ff00a1", "#004cff", "#5000ff", "#4f1fb7", "#5000ff", "#004cff", "#ff00a1", "#00ffb3" ] }
 
     // colorTheme: ["#32216E", "#1571A8", "#10A835", "#FDEA00", "#A80706"],
     // colorTheme: ["#4729af", "#B92f94", "#E36172", "#FDA860", "#f4c809"],
